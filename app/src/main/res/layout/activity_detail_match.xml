@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailMatch.DetailMatchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="@android:color/white">
+                <ImageView
+                    android:id="@+id/iv_team_home"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/american_mayor_league"
+                    app:layout_constraintEnd_toStartOf="@id/tv_score_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_team_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_team_home"
+                    app:layout_constraintStart_toStartOf="@id/iv_team_home"
+                    app:layout_constraintEnd_toEndOf="@id/iv_team_home"/>
+
+                <TextView
+                    android:id="@+id/tv_score_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_null"
+                    android:textSize="50sp"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toTopOf="@id/iv_team_away"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_team_home"
+                    app:layout_constraintStart_toEndOf="@id/iv_team_home"
+                    app:layout_constraintEnd_toStartOf="@id/tv_separate_score"/>
+
+                <TextView
+                    android:id="@+id/tv_separate_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : "
+                    android:textSize="50sp"
+                    app:layout_constraintTop_toTopOf="@id/iv_team_away"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_team_home"
+                    app:layout_constraintStart_toEndOf="@id/tv_score_home"
+                    app:layout_constraintEnd_toStartOf="@id/tv_score_away"/>
+
+                <TextView
+                    android:id="@+id/tv_score_away"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_null"
+                    android:textSize="50sp"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toTopOf="@id/iv_team_away"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_team_home"
+                    app:layout_constraintStart_toEndOf="@id/tv_separate_score"
+                    app:layout_constraintEnd_toStartOf="@id/iv_team_away"/>
+
+                <ImageView
+                    android:id="@+id/iv_team_away"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/australian_a_league"
+                    app:layout_constraintStart_toEndOf="@id/tv_score_away"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_team_away"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_team_away"
+                    app:layout_constraintStart_toStartOf="@id/iv_team_away"
+                    app:layout_constraintEnd_toEndOf="@id/iv_team_away"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/tv_event_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+    <TextView
+        android:id="@+id/tv_event_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_event_title"/>
+
+    <TextView
+        android:id="@+id/tv_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="home"
+        app:layout_constraintTop_toBottomOf="@id/tv_event_date"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_away"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="away"
+        app:layout_constraintTop_toBottomOf="@id/tv_event_date"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/home_line_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/line_up"/>
+
+    <TextView
+        android:id="@+id/line_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Lineup Forward"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_home"
+        app:layout_constraintStart_toEndOf="@id/home_line_up"
+        app:layout_constraintEnd_toStartOf="@id/away_line_up"/>
+
+    <TextView
+        android:id="@+id/away_line_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_home"
+        app:layout_constraintStart_toEndOf="@id/line_up"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/home_goal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/line_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/line_up"/>
+
+    <TextView
+        android:id="@+id/goal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Goal Detail"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/line_up"
+        app:layout_constraintStart_toEndOf="@id/home_line_up"
+        app:layout_constraintEnd_toStartOf="@id/away_line_up"/>
+
+    <TextView
+        android:id="@+id/away_goal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/line_up"
+        app:layout_constraintStart_toEndOf="@id/line_up"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/home_yellow_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/yellow_card"/>
+
+    <TextView
+        android:id="@+id/yellow_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Yellow Cards"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/goal"
+        app:layout_constraintStart_toEndOf="@id/home_yellow_card"
+        app:layout_constraintEnd_toStartOf="@id/away_yellow_card"/>
+
+    <TextView
+        android:id="@+id/away_yellow_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/goal"
+        app:layout_constraintStart_toEndOf="@id/yellow_card"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/home_red_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/yellow_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/red_card"/>
+
+    <TextView
+        android:id="@+id/red_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Red Cards"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/yellow_card"
+        app:layout_constraintStart_toEndOf="@id/home_red_card"
+        app:layout_constraintEnd_toStartOf="@id/away_red_card"/>
+
+    <TextView
+        android:id="@+id/away_red_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/yellow_card"
+        app:layout_constraintStart_toEndOf="@id/red_card"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/home_goal_keeper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/red_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/goal_keeper"/>
+
+    <TextView
+        android:id="@+id/goal_keeper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Goal Keeper"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/red_card"
+        app:layout_constraintStart_toEndOf="@id/home_goal_keeper"
+        app:layout_constraintEnd_toStartOf="@id/away_goal_keeper"/>
+
+    <TextView
+        android:id="@+id/away_goal_keeper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/red_card"
+        app:layout_constraintStart_toEndOf="@id/goal_keeper"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

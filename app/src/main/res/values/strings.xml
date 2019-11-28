@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FootballMatchSchedule</string>
+
+    <string name="next_match">Next Match</string>
+    <string name="previous_match">Previous Match</string>
+    <string name="data_null">-</string>
+    <string name="data_is_empty">Data is empty</string>
+    <string name="not_found">Not found</string>
+    <string name="match">Matches</string>
+    <string name="favorites">Favorites</string>
+    <string name="formed_year">Formed Year :</string>
+    <string name="first_event">First event :</string>
+    <string name="country">Country :</string>
+    <string name="website">Website :</string>
+    <string name="btn_match">Match</string>
+    <string name="detail_league_title">Detail League</string>
+    <string name="football_match_title">Football Match</string>
+</resources>
