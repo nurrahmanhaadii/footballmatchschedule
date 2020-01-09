@@ -1,4 +1,4 @@
-package id.haadii.submission.dicoding.footballmatchschedule.previousMatch
+package id.haadii.submission.dicoding.footballmatchschedule.match.pastmatch
 
 
 import android.content.Intent
@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.haadii.submission.dicoding.footballmatchschedule.R
-import id.haadii.submission.dicoding.footballmatchschedule.detailMatch.DetailMatchActivity
+import id.haadii.submission.dicoding.footballmatchschedule.detailmatch.DetailMatchActivity
 import id.haadii.submission.dicoding.footballmatchschedule.match.MatchAdapter
 import id.haadii.submission.dicoding.footballmatchschedule.match.MatchViewModel
 import id.haadii.submission.dicoding.footballmatchschedule.util.ViewModelFactory
@@ -48,7 +48,9 @@ class PreviousMatchFragment : Fragment() {
         viewModel = obtainViewModel(activity!!)
 
         val idLeague = arguments?.getString("id_league") as String
-        viewModel.getPastMatch(idLeague)
+        if (viewModel.pastList.isEmpty()) {
+            viewModel.getPastMatch(idLeague)
+        }
 
         viewModel.setPastMatch().observe(this, Observer {
             if (it.isNotEmpty()) {
@@ -60,6 +62,7 @@ class PreviousMatchFragment : Fragment() {
                             val intent = Intent(activity, DetailMatchActivity::class.java)
                             intent.putExtra("id_event", event.idEvent)
                             intent.putExtra("event", event)
+                            intent.putExtra("isNextMatch", false)
                             startActivity(intent)
                         }
                 }

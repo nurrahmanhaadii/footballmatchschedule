@@ -28,5 +28,6 @@ data class Event(
     val strHomeLineupGoalkeeper: String? = null,
     val strAwayLineupGoalkeeper: String? = null,
     var strBadgeHomeTeam: String? = null,
-    var strBadgeAwayTeam: String? = null
+    var strBadgeAwayTeam: String? = null,
+    var isNextMatch: Boolean
 ) : Parcelable

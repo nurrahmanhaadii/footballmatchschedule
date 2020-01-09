@@ -1,4 +1,4 @@
-package id.haadii.submission.dicoding.footballmatchschedule.detailLeague
+package id.haadii.submission.dicoding.footballmatchschedule.detailleague
 
 import android.content.Intent
 import android.os.Bundle

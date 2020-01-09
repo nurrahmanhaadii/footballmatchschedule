@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import id.haadii.submission.dicoding.footballmatchschedule.R
 import id.haadii.submission.dicoding.footballmatchschedule.favorite.FavoriteFragment
@@ -24,33 +25,35 @@ class MatchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_match)
 
         title = "Match"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = obtainViewModel()
 
         idLeague = intent.getStringExtra("id_league") as String
 
-        view_pager_main.adapter = MatchPagerAdapter(supportFragmentManager, this, idLeague)
-        tab_layout.setupWithViewPager(view_pager_main)
-
         bottom_nav.setOnNavigationItemSelectedListener {
-            val manager = supportFragmentManager
-            val transaction = manager.beginTransaction()
             when (it.itemId) {
                 R.id.matches -> {
-                    view_pager_main.visibility = View.VISIBLE
-                    contentFrame.visibility = View.GONE
-                    search?.isEnabled = true
+                    replaceFragment(MatchFragment.newInstance(idLeague))
+                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.favorites -> {
-                    view_pager_main.visibility = View.GONE
-                    contentFrame.visibility = View.VISIBLE
-                    search?.isEnabled = false
-                    transaction.replace(R.id.contentFrame, FavoriteFragment.newInstance(idLeague))
-                        .commit()
+                    replaceFragment(FavoriteFragment.newInstance(idLeague))
+                    return@setOnNavigationItemSelectedListener true
                 }
             }
-            true
+            false
         }
+
+        replaceFragment(MatchFragment.newInstance(idLeague))
+
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.contentFrame, fragment)
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -62,15 +65,12 @@ class MatchActivity : AppCompatActivity() {
         search?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 onBackPressed()
-                contentFrame.visibility = View.GONE
-                view_pager_main.visibility = View.VISIBLE
                 bottom_nav.visibility = View.VISIBLE
                 return true
             }
 
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 contentFrame.visibility = View.VISIBLE
-                view_pager_main.visibility = View.GONE
                 bottom_nav.visibility = View.GONE
                 val manager = supportFragmentManager
                 val transaction = manager.beginTransaction()
@@ -92,12 +92,19 @@ class MatchActivity : AppCompatActivity() {
                         viewModel.setSearchEvent().value!!.clear()
                     }
                     viewModel.loadData.value = true
+                    viewModel.loadDataTeam.value = true
                     viewModel.getSearchEvent(query)
+                    viewModel.getSearchTeam(query)
                 }
                 return true
             }
         })
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun obtainViewModel(): MatchViewModel {

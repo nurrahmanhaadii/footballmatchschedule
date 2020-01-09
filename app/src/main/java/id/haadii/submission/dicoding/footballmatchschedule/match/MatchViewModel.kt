@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import id.haadii.submission.dicoding.footballmatchschedule.helper.database
 import id.haadii.submission.dicoding.footballmatchschedule.model.Event
 import id.haadii.submission.dicoding.footballmatchschedule.model.Favorite
+import id.haadii.submission.dicoding.footballmatchschedule.model.Team
+import id.haadii.submission.dicoding.footballmatchschedule.model.TeamFavorite
 import id.haadii.submission.dicoding.footballmatchschedule.repository.MatchRepository
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
@@ -14,27 +16,34 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
 
     private val nextMatch = MutableLiveData<ArrayList<Event>>()
     private val pastMatch = MutableLiveData<ArrayList<Event>>()
+    private val teams = MutableLiveData<ArrayList<Team>>()
     private val searchEvent = MutableLiveData<ArrayList<Event>>()
+    private val searchTeam = MutableLiveData<ArrayList<Team>>()
     private val favEvent = MutableLiveData<ArrayList<Event>>()
+    private val favTeam = MutableLiveData<ArrayList<Team>>()
 
     val loadData = MutableLiveData<Boolean>()
-    private val nextList = ArrayList<Event>()
-    private val pastList = ArrayList<Event>()
-    private val searchList = ArrayList<Event>()
-    private val favList = ArrayList<Event>()
+    val loadDataTeam = MutableLiveData<Boolean>()
+    val nextList = ArrayList<Event>()
+    val pastList = ArrayList<Event>()
+    val searchList = ArrayList<Event>()
+    val searchTeamList = ArrayList<Team>()
+    val favList = ArrayList<Event>()
+    val favTeamList = ArrayList<Team>()
 
     fun getNextMatch(id: String) {
         repository.getNextMatch(id) { listEvents ->
             if (listEvents != null) {
                 for (event in listEvents) {
                     repository.getDetailTeam(event.idHomeTeam, event, isHomeTeam = true) {
-                        nextList.add(it)
-                        nextMatch.value = nextList
-                    }
-
-                    repository.getDetailTeam(event.idAwayTeam, event, isHomeTeam = false) {
-                        nextList.add(it)
-                        nextMatch.value = nextList
+                        repository.getDetailTeam(
+                            event.idAwayTeam,
+                            event,
+                            isHomeTeam = false
+                        ) { event ->
+                            nextList.add(event)
+                            nextMatch.postValue(nextList)
+                        }
                     }
                 }
             } else {
@@ -52,13 +61,14 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
             if (events != null) {
                 for (event in events) {
                     repository.getDetailTeam(event.idHomeTeam, event, isHomeTeam = true) {
-                        pastList.add(it)
-                        pastMatch.value = pastList
-                    }
-
-                    repository.getDetailTeam(event.idAwayTeam, event, isHomeTeam = false) {
-                        pastList.add(it)
-                        pastMatch.value = pastList
+                        repository.getDetailTeam(
+                            event.idAwayTeam,
+                            event,
+                            isHomeTeam = false
+                        ) { event ->
+                            pastList.add(event)
+                            pastMatch.postValue(pastList)
+                        }
                     }
                 }
             } else {
@@ -71,17 +81,29 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
         return pastMatch
     }
 
+    fun getTeamList(id: String) {
+        repository.getTeamList(id) {
+            teams.value = it
+        }
+    }
+
+    fun setTeamList(): MutableLiveData<ArrayList<Team>> {
+        return teams
+    }
+
     fun getSearchEvent(query: String) {
         repository.getSearchEvent(query) { events ->
             if (events != null) {
                 for (event in events) {
                     repository.getDetailTeam(event.idHomeTeam, event, isHomeTeam = true) {
-                        searchList.add(it)
-                        searchEvent.value = searchList
-                    }
-                    repository.getDetailTeam(event.idAwayTeam, event, isHomeTeam = false) {
-                        searchList.add(it)
-                        searchEvent.value = searchList
+                        repository.getDetailTeam(
+                            event.idAwayTeam,
+                            event,
+                            isHomeTeam = false
+                        ) { event ->
+                            searchList.add(event)
+                            searchEvent.postValue(searchList)
+                        }
                     }
                 }
             } else {
@@ -94,6 +116,20 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
         return searchEvent
     }
 
+    fun getSearchTeam(query: String) {
+        repository.getSearchTeam(query) { team ->
+            if (team?.teams.isNullOrEmpty()) {
+                searchTeam.value = searchTeamList
+            } else {
+                searchTeam.value = team?.teams
+            }
+        }
+    }
+
+    fun setSearchTeam(): MutableLiveData<ArrayList<Team>> {
+        return searchTeam
+    }
+
     fun getFavoriteMatch(): MutableLiveData<ArrayList<Event>> {
         return favEvent
     }
@@ -104,6 +140,19 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
             val favorite = result.parseList(classParser<Favorite>())
             setEvent(favorite)
             favEvent.postValue(favList)
+        }
+    }
+
+    fun getFavoriteTeam(): MutableLiveData<ArrayList<Team>> {
+        return favTeam
+    }
+
+    fun setFavoriteTeam(context: Context) {
+        context.database.use {
+            val result = select(TeamFavorite.TABLE_TEAM_FAVORITE)
+            val favorite = result.parseList(classParser<TeamFavorite>())
+            setTeam(favorite)
+            favTeam.postValue(favTeamList)
         }
     }
 
@@ -133,9 +182,27 @@ class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
                 strAwayLineupGoalkeeper = favorite.teamAwayGoalKeeper,
                 strAwayLineupForward = favorite.teamAwayLineUp,
                 strAwayGoalDetails = favorite.teamAwayGoal,
-                strBadgeAwayTeam = favorite.teamAwayBadge
+                strBadgeAwayTeam = favorite.teamAwayBadge,
+                isNextMatch = favorite.isNextMatch
             )
             favList.add(event)
+        }
+    }
+
+    private fun setTeam(list: List<TeamFavorite>) {
+        for (favorite in list) {
+            val team = Team(
+                idTeam = favorite.id.toString(),
+                idLeague = favorite.idLeague,
+                strTeam = favorite.strTeam,
+                intFormedYear = favorite.intFormedYear,
+                strStadium = favorite.strStadium,
+                strWebsite = favorite.strWebsite,
+                strTeamBadge = favorite.strTeamBadge,
+                strDescriptionEN = favorite.strDescriptionEN,
+                strCountry = favorite.strCountry
+            )
+            favTeamList.add(team)
         }
     }
 

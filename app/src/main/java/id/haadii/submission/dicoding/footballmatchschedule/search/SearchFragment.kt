@@ -1,20 +1,13 @@
 package id.haadii.submission.dicoding.footballmatchschedule.search
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import id.haadii.submission.dicoding.footballmatchschedule.R
-import id.haadii.submission.dicoding.footballmatchschedule.detailMatch.DetailMatchActivity
-import id.haadii.submission.dicoding.footballmatchschedule.match.MatchAdapter
 import id.haadii.submission.dicoding.footballmatchschedule.match.MatchViewModel
-import id.haadii.submission.dicoding.footballmatchschedule.model.Event
 import id.haadii.submission.dicoding.footballmatchschedule.util.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_search_event.*
 import java.util.*
@@ -49,45 +42,10 @@ class SearchFragment : Fragment() {
         viewModel = obtainViewModel()
         val idLeague = arguments?.getString("id_league") as String
 
-        viewModel.loadData.observe(this, Observer { loadData ->
-            if (loadData) {
-                pb_search.visibility = View.VISIBLE
-            } else {
-                pb_search.visibility = View.GONE
-            }
-        })
+        view_pager_search.adapter =
+            SearchPagerAdapter(childFragmentManager, activity!!.applicationContext, idLeague)
+        tab_layout_search.setupWithViewPager(view_pager_search)
 
-        viewModel.setSearchEvent().observe(this, Observer {
-            if (it.isNotEmpty()) {
-                val list = it.filter { event ->
-                    event.strSport == "Soccer" &&
-                            event.idLeague == idLeague
-                } as ArrayList<Event>
-
-                if (list.isNotEmpty()) {
-                    tv_no_result.visibility = View.GONE
-                    rv_search.visibility = View.VISIBLE
-                    rv_search.apply {
-                        setHasFixedSize(true)
-                        layoutManager = LinearLayoutManager(activity!!)
-                        adapter =
-                            MatchAdapter(list) { event ->
-                                val intent = Intent(activity, DetailMatchActivity::class.java)
-                                intent.putExtra("event", event)
-                                startActivity(intent)
-                            }
-                    }
-                } else {
-                    rv_search.visibility = View.GONE
-                    tv_no_result.visibility = View.VISIBLE
-                }
-                viewModel.loadData.value = false
-            } else {
-                viewModel.loadData.value = false
-                rv_search.visibility = View.GONE
-                tv_no_result.visibility = View.VISIBLE
-            }
-        })
     }
 
     private fun obtainViewModel(): MatchViewModel {

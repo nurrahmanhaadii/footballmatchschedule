@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import id.haadii.submission.dicoding.footballmatchschedule.R
+import id.haadii.submission.dicoding.footballmatchschedule.detailleague.DetailLeagueActivity
 import id.haadii.submission.dicoding.footballmatchschedule.util.EspressoIdlingResource
 import org.hamcrest.Matchers.not
 import org.junit.After
@@ -20,7 +21,8 @@ import org.junit.Test
 class DetailLeagueActivityTest {
     @get:Rule
     val activityTestRule =
-        object : ActivityTestRule<DetailLeagueActivity>(DetailLeagueActivity::class.java) {
+        object : ActivityTestRule<DetailLeagueActivity>(
+            DetailLeagueActivity::class.java) {
             override fun getActivityIntent(): Intent {
                 val context = InstrumentationRegistry.getInstrumentation().targetContext
                 val intent = Intent(context, DetailLeagueActivity::class.java)

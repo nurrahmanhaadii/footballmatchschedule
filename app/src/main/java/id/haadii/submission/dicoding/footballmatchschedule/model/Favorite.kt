@@ -24,7 +24,8 @@ data class Favorite(
     val teamAwayGoal: String?,
     val teamAwayGoalKeeper: String?,
     val teamAwayRedCards: String?,
-    val teamAwayYellowCards: String?
+    val teamAwayYellowCards: String?,
+    val isNextMatch: Boolean
 ) {
 
     companion object {
@@ -53,5 +54,6 @@ data class Favorite(
         const val TEAM_AWAY_RED_CARDS: String = "TEAM_AWAY_RED_CARDS"
         const val TEAM_AWAY_YELLOW_CARDS: String = "TEAM_AWAY_YELLOW_CARDS"
         const val TEAM_AWAY_GOAL_KEEPER: String = "TEAM_AWAY_GOAL_KEEPER"
+        const val IS_NEXT_MATCH: String = "IS_NEXT_MATCH"
     }
 }

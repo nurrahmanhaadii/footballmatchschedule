@@ -1,4 +1,4 @@
-package id.haadii.submission.dicoding.footballmatchschedule.detailMatch
+package id.haadii.submission.dicoding.footballmatchschedule.detailmatch
 
 import android.app.Application
 import android.content.Context
@@ -69,13 +69,14 @@ class DetailMatchViewModel(application: Application) : AndroidViewModel(applicat
                 strAwayLineupGoalkeeper = favorite.teamAwayGoalKeeper,
                 strAwayLineupForward = favorite.teamAwayLineUp,
                 strAwayGoalDetails = favorite.teamAwayGoal,
-                strBadgeAwayTeam = favorite.teamAwayBadge
+                strBadgeAwayTeam = favorite.teamAwayBadge,
+                isNextMatch = favorite.isNextMatch
             )
             favList.add(event)
         }
     }
 
-    fun insertFavMatch(event: Event, context: Context) {
+    fun insertFavMatch(event: Event, isNextMatch: Boolean, context: Context) {
         try {
             context.database.use {
                 insert(
@@ -103,7 +104,8 @@ class DetailMatchViewModel(application: Application) : AndroidViewModel(applicat
                     Favorite.TEAM_AWAY_LINEUP_FORWARD to event.strAwayLineupGoalkeeper,
                     Favorite.TEAM_AWAY_SCORE to event.intAwayScore,
                     Favorite.TEAM_AWAY_RED_CARDS to event.strAwayRedCards,
-                    Favorite.TEAM_AWAY_YELLOW_CARDS to event.strAwayYellowCards
+                    Favorite.TEAM_AWAY_YELLOW_CARDS to event.strAwayYellowCards,
+                    Favorite.IS_NEXT_MATCH to isNextMatch
                 )
             }
         } catch (e: SQLiteConstraintException) {

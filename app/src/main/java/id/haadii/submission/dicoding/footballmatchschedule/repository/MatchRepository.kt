@@ -50,6 +50,37 @@ class MatchRepository {
         })
     }
 
+    fun getSearchTeam(query: String, listener: (TeamList?) -> Unit) {
+        NetworkConfig.api().searchTeam(query).enqueue(object : Callback<TeamList> {
+            override fun onResponse(call: Call<TeamList>, response: Response<TeamList>) {
+                if (response.isSuccessful) {
+                    val teams = response.body()
+                    listener(teams)
+                }
+            }
+
+            override fun onFailure(call: Call<TeamList>, t: Throwable) {
+            }
+        })
+    }
+
+    fun getTeamList(id: String, listener: (ArrayList<Team>) -> Unit) {
+        NetworkConfig.api().teamList(id).enqueue(object : Callback<TeamList> {
+            override fun onResponse(call: Call<TeamList>, response: Response<TeamList>) {
+                if (response.isSuccessful) {
+                    val teams = response.body()
+                    if (teams != null) {
+                        listener(teams.teams)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TeamList>, t: Throwable) {
+
+            }
+        })
+    }
+
     fun getDetailTeam(id: String, event: Event, isHomeTeam: Boolean, listener: (Event) -> Unit) {
         NetworkConfig.api().detailTeam(id).enqueue(object : Callback<DetailTeam> {
             override fun onResponse(call: Call<DetailTeam>, response: Response<DetailTeam>) {

@@ -3,6 +3,7 @@ package id.haadii.submission.dicoding.footballmatchschedule.helper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import id.haadii.submission.dicoding.footballmatchschedule.model.Favorite
+import id.haadii.submission.dicoding.footballmatchschedule.model.TeamFavorite
 import org.jetbrains.anko.db.*
 
 class MyDatabaseOpenHelper(context: Context) :
@@ -44,12 +45,27 @@ class MyDatabaseOpenHelper(context: Context) :
             Favorite.TEAM_AWAY_GOAL to TEXT,
             Favorite.TEAM_AWAY_GOAL_KEEPER to TEXT,
             Favorite.TEAM_AWAY_RED_CARDS to TEXT,
-            Favorite.TEAM_AWAY_YELLOW_CARDS to TEXT
+            Favorite.TEAM_AWAY_YELLOW_CARDS to TEXT,
+            Favorite.IS_NEXT_MATCH to INTEGER
         )
+
+        db.createTable(
+            TeamFavorite.TABLE_TEAM_FAVORITE, true,
+            TeamFavorite.ID to INTEGER + PRIMARY_KEY,
+            TeamFavorite.ID_LEAGUE to TEXT,
+            TeamFavorite.STR_TEAM to TEXT,
+            TeamFavorite.INT_FORMED_YEAR to TEXT,
+            TeamFavorite.STR_STADIUM to TEXT,
+            TeamFavorite.STR_WEBSITE to TEXT,
+            TeamFavorite.STR_TEAM_BADGE to TEXT,
+            TeamFavorite.STR_DESCRIPTION to TEXT,
+            TeamFavorite.STR_COUNTRY to TEXT
+            )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.dropTable(Favorite.TABLE_FAVORITE, true)
+        db.dropTable(TeamFavorite.TABLE_TEAM_FAVORITE, true)
     }
 }
 

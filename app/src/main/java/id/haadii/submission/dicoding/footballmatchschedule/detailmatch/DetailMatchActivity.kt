@@ -1,4 +1,4 @@
-package id.haadii.submission.dicoding.footballmatchschedule.detailMatch
+package id.haadii.submission.dicoding.footballmatchschedule.detailmatch
 
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +15,7 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DetailMatchViewModel
     private lateinit var event: Event
+    private var isNextMatch: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class DetailMatchActivity : AppCompatActivity() {
 
         viewModel = obtainViewModel()
         event = intent.getParcelableExtra("event") as Event
+        isNextMatch = intent.getBooleanExtra("isNextMatch", false)
 
         viewModel.checkFavorite(event)
         setView(event)
@@ -110,7 +112,7 @@ class DetailMatchActivity : AppCompatActivity() {
                     item.icon = resources.getDrawable(R.drawable.ic_unfavorite)
                 } else {
                     viewModel.isFavorite = true
-                    viewModel.insertFavMatch(event, this)
+                    viewModel.insertFavMatch(event, isNextMatch,this)
                     item.icon = resources.getDrawable(R.drawable.ic_favorite)
                 }
             }

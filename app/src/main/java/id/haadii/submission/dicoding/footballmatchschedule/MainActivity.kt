@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import id.haadii.submission.dicoding.footballmatchschedule.detailLeague.DetailLeagueActivity
+import id.haadii.submission.dicoding.footballmatchschedule.detailleague.DetailLeagueActivity
 import id.haadii.submission.dicoding.footballmatchschedule.repository.DataDummy
 import kotlinx.android.synthetic.main.activity_main.*
 

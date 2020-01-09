@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import id.haadii.submission.dicoding.footballmatchschedule.R
-import id.haadii.submission.dicoding.footballmatchschedule.nextMatch.NextMatchFragment
-import id.haadii.submission.dicoding.footballmatchschedule.previousMatch.PreviousMatchFragment
+import id.haadii.submission.dicoding.footballmatchschedule.match.nextmatch.NextMatchFragment
+import id.haadii.submission.dicoding.footballmatchschedule.match.pastmatch.PreviousMatchFragment
+import id.haadii.submission.dicoding.footballmatchschedule.team.TeamFragment
 
 class MatchPagerAdapter(
     fragmentManager: FragmentManager,
@@ -19,14 +20,17 @@ class MatchPagerAdapter(
             0 -> {
                 NextMatchFragment.newInstance(idLeague)
             }
-            else -> {
+            1 -> {
                 return PreviousMatchFragment.newInstance(idLeague)
+            }
+            else -> {
+                return TeamFragment.newInstance(idLeague)
             }
         }
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -34,9 +38,10 @@ class MatchPagerAdapter(
             0 -> {
                 context.getString(R.string.next_match)
             }
-            else -> {
+            1 -> {
                 context.getString(R.string.previous_match)
             }
+            else -> context.getString(R.string.team)
         }
     }
 

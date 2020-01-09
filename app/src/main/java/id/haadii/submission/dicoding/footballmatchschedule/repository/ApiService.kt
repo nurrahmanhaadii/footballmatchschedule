@@ -1,9 +1,6 @@
 package id.haadii.submission.dicoding.footballmatchschedule.repository
 
-import id.haadii.submission.dicoding.footballmatchschedule.model.DetailLeague
-import id.haadii.submission.dicoding.footballmatchschedule.model.DetailTeam
-import id.haadii.submission.dicoding.footballmatchschedule.model.Match
-import id.haadii.submission.dicoding.footballmatchschedule.model.SearchResult
+import id.haadii.submission.dicoding.footballmatchschedule.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -27,4 +24,10 @@ interface ApiService {
 
     @GET("searchevents.php")
     fun searchEvent(@Query("e") value: String): Call<SearchResult>
+
+    @GET("searchteams.php")
+    fun searchTeam(@Query("t") value: String): Call<TeamList>
+
+    @GET("lookup_all_teams.php")
+    fun teamList(@Query("id") id: String): Call<TeamList>
 }

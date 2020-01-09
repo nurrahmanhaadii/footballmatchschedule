@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.times
+import id.haadii.submission.dicoding.footballmatchschedule.detailleague.DetailViewModel
 import id.haadii.submission.dicoding.footballmatchschedule.model.DetailLeague
 import id.haadii.submission.dicoding.footballmatchschedule.model.League
 import id.haadii.submission.dicoding.footballmatchschedule.repository.MatchRepository
@@ -29,7 +30,10 @@ class DetailViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = DetailViewModel(repository)
+        viewModel =
+            DetailViewModel(
+                repository
+            )
     }
 
     @Test
